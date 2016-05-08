@@ -1,0 +1,26 @@
+extend ../layout
+
+block content
+	.container
+		.row
+			table.table.table-hover.table-bordered
+				thead
+					tr
+						th 名称
+						th 价格
+						th 购买日期
+						th 详情
+						th 购买者
+						th 管理
+				tbody
+					each item in records
+						tr(class="item-id-#{item._id}")
+							td #{item.name}
+							td #{item.price}
+							td #{moment(item.date).format('MM/DD/YYYY')}
+							td #{item.remark}
+							td #{item.purchaser}
+							td
+								button.btn.btn-danger.del(type="button", data-id="#{item.id}") 删除
+
+		script(src="/js/admin.js")
