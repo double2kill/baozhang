@@ -1,0 +1,34 @@
+extend ../layout
+
+block content
+	.container
+		.row
+			form.form-horizontal(method="post", action="/admin/record/new")
+				input(type="hidden", name="_id", value="#{record._id}")
+				.form-group
+					lable.col-sm-1.control-label(for="inputName") 名称
+					.col-sm-3
+						input#inputTitle.form-control(type="text", name="name", value="#{record.name}")
+				.form-group
+					lable.col-sm-1.control-label(for="inputPrice") 价格(元)
+					.col-sm-3
+						input#inputTitle.form-control(type="text", name="price", value="#{record.price}", placeholder="直接填入数字即可")
+				.form-group
+					lable.col-sm-1.control-label(for="inputDate") 购买日期
+					.col-sm-3
+						input#inputTitle.form-control(type="date", name="date", value="#{moment(record.date).format('YYYY-MM-DD')}", placeholder="年-月-日")
+				.form-group
+					lable.col-sm-1.control-label(for="inputPurchaser") 购买者
+					.col-sm-3
+						input#inputTitle.form-control(type="text", name="purchaser", value="#{record.purchaser}")
+				.form-group
+					lable.col-sm-1.control-label(for="inputInvoice") 有无发票
+					.col-sm-3
+						input#inputTitle.form-control(type="text", name="invoice", value="#{record.invoice}", placeholder="有/无")
+				.form-group
+					lable.col-sm-1.control-label(for="inputRemark") 备注
+					.col-sm-3
+						input#inputTitle.form-control(type="text", name="remark", value="#{record.remark}")
+				.form-group
+					.col-sm-2
+					button.col-sm-1.btn.btn-primary(type="submit") 记录

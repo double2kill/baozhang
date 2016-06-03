@@ -1,0 +1,38 @@
+extend ../../layout
+
+block content
+	.container
+		.row
+			form.form-horizontal(method="post", action="/admin/invoice/new")
+				input(type="hidden", name="_id", value="#{invoice._id}")
+				.form-group
+					lable.col-sm-1.control-label(for="inputName") 支出摘要
+					.col-sm-3
+						input#inputTitle.form-control(type="text", name="name", value="#{invoice.name}", placeholder="材料费请写入库单号")
+				.form-group
+					lable.col-sm-1.control-label(for="inputPrice") 合计(元)
+					.col-sm-3
+						input#inputTitle.form-control(type="text", name="price", value="#{invoice.price}", placeholder="直接填入数字即可")
+				.form-group
+					lable.col-sm-1.control-label(for="inputDate") 报销日期
+					.col-sm-3
+						input#inputTitle.form-control(type="date", name="date", value="#{moment(invoice.date).format('YYYY-MM-DD')}", placeholder="年/月/日")
+				.form-group
+					lable.col-sm-1.control-label(for="inputPurchaser") 报销使用的经费卡号
+					.col-sm-3
+						input#inputTitle.form-control(type="text", name="useCard", value="#{invoice.useCard}", placeholder="1234-ZK9876")
+				.form-group
+					lable.col-sm-1.control-label(for="inputPurchaser") 报销给
+					.col-sm-3
+						input#inputTitle.form-control(type="text", name="toWho", value="#{invoice.toWho}", placeholder="李四")
+				.form-group
+					lable.col-sm-1.control-label(for="inputRemark") 备注
+					.col-sm-3
+						input#inputTitle.form-control(type="text", name="remark", value="#{invoice.remark}")
+				.form-group
+					lable.col-sm-1.control-label(for="inputRemark") 经办人
+					.col-sm-3
+						input#inputTitle.form-control(type="text", name="manager", value="#{invoice.manager}",  placeholder="张三")
+				.form-group
+					.col-sm-2
+					button.col-sm-1.btn.btn-primary(type="submit") 记录

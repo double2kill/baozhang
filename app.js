@@ -2,14 +2,32 @@ var express = require('express')
 var path = require('path')
 var mongoose = require('mongoose')
 var bodyParser = require('body-parser')
-var Record = require('./models/record')
+// var cookieParser = require('cookie-parser') // express4.0好像不需要用到这个了
+var morgan = require('morgan')
+var session = require('express-session')
+var mongoStore = require('connect-mongo')(session)
 var port = process.env.PORT || 3000 //如果想要在windows使用PORT，需要在cmd中输入set PORT=8080，然后node app.js
 var app = express()
 
-mongoose.connect('mongodb://localhost/liuchen')
+var dbURL = 'mongodb://localhost/liuchen'
 
-app.set('views', './views/pages/')
+mongoose.connect(dbURL)
+
+app.set('views', './app/views/pages/')
 app.set('view engine', 'jade')
+// app.use(cookieParser()) // express4.0好像不需要用到这个了
+app.use(session({
+  // 不理解这些是什么意思。
+  secret: 'biaodan',
+  resave: false,
+  saveUninitialized: true,
+
+  //connect-mongo 添加参数
+  store: new mongoStore({
+    url: dbURL,
+    collection: 'sessions'
+  })
+}))
 app.use(bodyParser.urlencoded({ extended: false }))  
 app.use(bodyParser.json()) 
 app.locals.moment = require('moment')
@@ -18,89 +36,11 @@ app.listen(port)
 
 console.log('web started on port ' + port)
 
-// index page
-app.get('/', function(req, res){
-  res.render('index',{ 
-  	title: 'double2kill的首页'
-  })
-})
+if ('development' === app.get('env')) {
+  app.set('showStackError', true)
+  app.use(morgan('dev'))
+  app.locals.pretty = true
+  mongoose.set('debug', true)
+}
 
-// add page
-app.get('/add', function(req, res){
-  res.render('add',{
-  	title: '添加记录页',
-  	record: {
-  		name: '',
-  		price: '',
-  		date: '',
-  		purchaser: '',
-  		remark: ''
-  	}
-  })
-})
-
-// list page
-app.get('/list', function(req, res){
-  Record.fetch(function(err,records){
-    if(err){
-      console.log(err)
-    }
-
-    res.render('list',{
-      title: '查看记录页',
-      records: records
-    })
-  })
-})
-
-// admin page
-app.get('/admin', function(req, res){
-  Record.find(function(err,records){
-    if(err){
-      console.log(err)
-    }
-
-    res.render('admin',{
-      title: '后台管理',
-      records: records
-    })
-  })
-
-
-})
-
-// admin post record
-app.post('/admin/record/new', function(req, res){
-  var RecordObj = req.body
-  var _record
-
-    _record = new Record({
-      name: RecordObj.name,
-      price: RecordObj.price,
-      purchaser: RecordObj.purchaser,
-      date: RecordObj.date,
-      remark: RecordObj.remark
-    })
-    _record.save(function(err, record){
-      if (err){
-        console.log(err)
-      }
-      res.redirect('/list')
-    })
-}) 
-
-// admin delete record
-app.delete('/admin/record/',function(req,res){
-  var id = req.query.id
-
-  if(id) {
-    Record.remove({_id: id}, function(err,record){
-      if(err){
-        console.log(err)
-      }
-      else{
-        res.json({success: 1})
-      }
-    })
-  }
-})
+require('./config/routes')(app)

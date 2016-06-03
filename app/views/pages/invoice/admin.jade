@@ -1,0 +1,31 @@
+extend ../../layout
+
+block content
+	.container
+		.row
+			table.table.table-hover.table-bordered
+				thead
+					tr
+						th 支出摘要
+						th 合计(元)
+						th 报销日期
+						th 报销使用的经费卡号
+						th 报销给
+						th 备注
+						th 经办人
+						th.text-center(colspan="2") 管理
+				tbody
+					each item in invoices
+						tr(class="item-id-#{item._id}")
+							td #{item.name}
+							td #{item.price}
+							td #{moment(item.date).format('YYYY/MM/DD')}
+							td #{item.useCard}
+							td #{item.toWho}
+							td #{item.remark}
+							td #{item.manager}
+							td.text-center: a(href="/admin/invoice/update/#{item._id}") 修改
+							td.text-center
+								button.btn.btn-danger.del(type="button", data-id="#{item.id}") 删除
+
+		script(src="/js/admin-invoice.js")
