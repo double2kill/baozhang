@@ -12,6 +12,7 @@ block content
 						th 详情
 						th 有无发票
 						th 购买者
+						th 是否已报销
 				tbody
 					each item in records
 						//-代码重复太多，但是不知道如何修改。
@@ -28,6 +29,12 @@ block content
 									td
 										span.glyphicon.glyphicon-ok
 								td #{item.purchaser}
+								if (!item.done)
+									td
+										span.glyphicon.glyphicon-remove
+								else
+									td
+										span.glyphicon.glyphicon-ok
 						else
 							tr(class="item-id-#{item._id}")
 								td #{item.name}
@@ -41,4 +48,10 @@ block content
 									td
 										span.glyphicon.glyphicon-ok
 								td #{item.purchaser}
+								if (!item.done)
+									td
+										span.glyphicon.glyphicon-remove
+								else
+									td
+										span.glyphicon.glyphicon-ok
 			a(href="add") 添加新的记录

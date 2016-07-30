@@ -2,19 +2,57 @@ extend ../../layout
 
 block content
   .container
-    a(target="_blank", href="/add") 添加新的记录
-    br
-    a(target="_blank", href="/list") 查看最近十个记录
-    br
-    a(target="_blank", href="/invoice/add") 添加发票情况
-    br
-    a(target="_blank", href="/invoices") 查看发票情况
-    br
-    br
-    br
-    a(target="_blank", href="/all") 查看所有记录
-    br
-    a.bg-danger(target="_blank", href="/admin/records") 管理所有记录
-    br
-    a.bg-danger(target="_blank", href="/admin/invoices") 管理所有发票
-    br
+    //- 关于user.role信息请查看schemas/user.js
+    if user.role == 0
+        p 请让管理员认证你的注册信息。
+    if user.role >= 1
+        .col-sm-6
+            h3 记录
+            a.btn.btn-default(href="/add", ) 
+                span.glyphicon.glyphicon-plus 
+                |  添加新的记录
+            br
+            br
+            a.btn.btn-default(href="/record/my") 
+                span.glyphicon.glyphicon-user
+                |  与我相关的记录
+            br
+            br
+            a.btn.btn-default(href="/all") 
+                span.glyphicon.glyphicon-eye-open
+                |  查看所有记录
+            br
+            if user.role >= 5 
+                br
+                a.btn.btn-danger(href="/admin/records") 
+                    span.glyphicon.glyphicon-cog
+                    |  管理所有记录
+    if user.role >= 1
+        .col-sm-6
+            h3 发票
+            a.btn.btn-default(href="/invoice/add") 
+                span.glyphicon.glyphicon-plus
+                |  添加发票情况
+            br
+            br
+            a.btn.btn-default(href="/invoice/my") 
+                span.glyphicon.glyphicon-user
+                |  与我相关的发票
+            br
+            br
+            a.btn.btn-default(href="/invoice/all") 
+                span.glyphicon.glyphicon-eye-open
+                |  查看所有发票情况
+            br
+            if user.role >= 5 
+                br
+                a.btn.btn-danger(href="/admin/invoices") 
+                    span.glyphicon.glyphicon-cog
+                    |  管理所有发票
+    if user.role >= 10
+        .col-sm-6
+            br
+            br
+            a.btn.btn-danger(href="/user/admin") 
+                span.glyphicon.glyphicon-user
+                |  管理所有用户       

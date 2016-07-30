@@ -43,6 +43,11 @@ InvoiceSchema.statics = {
 		return this
 		  .findOne({_id: id})
 		  .exec(cb)
+	},
+	findByManager: function(name,cb){
+		return this
+		  .find({manager: name})
+		  .exec(cb)
 	}
 }
 

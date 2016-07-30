@@ -1,6 +1,7 @@
 var User = require('../models/user')
+
 // post user signup
-exports.signup = function(req,res) {
+exports.POSTsignup = function(req,res) {
   var _user = req.body
 
   User.findOne({'name': _user.name}, function(err, user) {
@@ -20,14 +21,15 @@ exports.signup = function(req,res) {
         }
 
         //注册成功
-        res.redirect('/user/signin')
+        req.session.user = user
+        res.redirect('/user/myinfo')
       })
     }
   })
 }
 
 // post user signin
-exports.signin = function(req, res) {
+exports.POSTsignin = function(req, res) {
   var _user = req.body
   var name = _user.name
   var password = _user.password
@@ -65,15 +67,15 @@ exports.logout = function (req, res) {
   res.redirect('/')
 }
 
-// user list page
-exports.list = function(req, res){
+// user admin page
+exports.admin = function(req, res){
   User.find(function(err,users){
     if(err){
       console.log(err)
     }
 
-    res.render('user/list',{
-      title: '查看用户页',
+    res.render('user/admin',{
+      title: '管理用户页',
       users: users
     })
   })
@@ -81,24 +83,66 @@ exports.list = function(req, res){
 
 // get sign up page
 exports.GETsignup = function(req, res){
-    res.render('user/signup',{
-      title: '注册页面',
-    })
+  res.render('user/signup',{
+    title: '注册页面',
+  })
 }
 // get sign in page
 exports.GETsignin = function(req, res){
-    res.render('user/signin',{
-      title: '登录页面',
-    })
+  res.render('user/signin',{
+    title: '登录页面',
+  })
 }
 
 // user index, after signin
 exports.index = function(req, res){
-    res.render('user/index',{
-      title: '用户导航页',
-    })
+  res.render('user/index',{
+    title: '用户导航页',
+  })
+}
+// myinfo page
+exports.myinfo = function(req, res){
+  var user = req.session.user
+  
+  res.render('user/myinfo',{
+    title: '我的个人信息',
+    user: user
+  })
 }
 
+exports.POSTadmin = function(req, res) {
+  var id = req.body.id
+  var role = req.body.role
+
+  User.update({_id: id}, { $set: {role: role}}, function (err) {
+    if (err) {
+      console.log(err)
+    }
+    else{
+      res.json({success: 1})
+    }
+  })
+}
+exports.POSTmyinfo = function(req, res) {
+  var id = req.body._id
+  var UserObj = {
+    name: req.body.name,
+    realname: req.body.realname,
+    teacher: req.body.teacher,
+  }
+
+  User.update({_id: id}, {$set: UserObj}, function (err) {
+    if (err) {
+      console.log(err)
+    }
+    else{
+      req.session.user.name = req.body.name
+      req.session.user.realname = req.body.realname
+      req.session.user.teacher = req.body.teacher
+      res.redirect('/user/myinfo')
+    }
+  })
+}
 
 //midware for user signin and admin
 exports.signinRequired = function (req, res, next) {

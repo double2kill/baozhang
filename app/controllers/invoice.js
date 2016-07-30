@@ -3,16 +3,18 @@ var _ =  require('underscore')
 // about invoice
 // add invoice page
 exports.add = function(req, res){
+  var user = req.session.user
+  
   res.render('invoice/addinvoice',{
     title: '添加发票信息页',
     invoice: {
       name: '',
       price: '',
-      date: '',
+      date: Date.now(),
       useCard: '',
-      toWho: '',
+      toWho: user.teacher,
       remark: '',
-      manager: ''
+      manager: user.realname
     }
   })
 }
@@ -26,6 +28,19 @@ exports.list = function(req, res){
 
     res.render('./invoice/list',{
       title: '查看发票信息页',
+      invoices: invoices
+    })
+  })
+}
+// all invoice page
+exports.all = function(req, res){
+  Invoice.find(function(err,invoices){
+    if(err){
+      console.log(err)
+    }
+
+    res.render('./invoice/list',{
+      title: '查看所有发票信息页',
       invoices: invoices
     })
   })
@@ -115,4 +130,20 @@ exports.update = function(req, res){
       })
     })
   }
+}
+
+// my invoice page
+exports.my = function(req, res){
+  var name = req.session.user.realname
+
+  Invoice.findByManager(name, function(err,invoices){
+    if(err){
+      console.log(err)
+    }
+
+    res.render('./invoice/list',{
+      title: '查看我的发票',
+      invoices: invoices
+    })
+  })
 }

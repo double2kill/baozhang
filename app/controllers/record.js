@@ -3,13 +3,15 @@ var _ =  require('underscore')
 
 // add page
 exports.add = function(req, res){
+  var user = req.session.user
+  
   res.render('add-update',{
     title: '添加记录页',
     record: {
       name: '',
       price: '',
-      date: '',
-      purchaser: '',
+      date: Date.now(),
+      purchaser: user.realname,
       invoice: '',
       remark: ''
     }
@@ -143,4 +145,36 @@ exports.POSTneedpaid = function(req,res){
       }
     })
   }
+}
+
+// admin post record use for change needpaid
+exports.POSTdone = function(req,res){
+  var id = req.query.id
+
+  if(id) {
+    Record.update({_id: id}, { $set: { done: true }}, function(err,record){
+      if(err){
+        console.log(err)
+      }
+      else{
+        res.json({success: 1})
+      }
+    })
+  }
+}
+
+// my record page
+exports.my = function(req, res){
+  var name = req.session.user.realname
+
+  Record.findByPurchaser(name, function(err,records){
+    if(err){
+      console.log(err)
+    }
+
+    res.render('list',{
+      title: '查看记录页',
+      records: records
+    })
+  })
 }

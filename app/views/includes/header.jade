@@ -1,24 +1,23 @@
 .navbar.navbar-default.navbar-fixed-top
   .container
     .navbar-header
-      a.navbar-brand(href="/") double2kill的首页
+      a.navbar-brand(href="/") 网站首页
     if user
+      a.navbar-brand(href="/user/index") 用户导航页
       p.navbar-text.navbar-right
-        span 
-          欢迎你，
-          a.navbar-link(href="/user/index") #{user.name}
+        span
+          a.navbar-link(href="/user/myinfo") #{user.name}
         span &nbsp;|&nbsp;
         a.navbar-link(href="/user/logout") 登出
     else
       p.navbar-text.navbar-right
         a.navbar-link(href="/user/signup") 注册
         span &nbsp;|&nbsp;
-        a.navbar-link(href="#", data-toggle="modal", data-target="#signinModal") 登录
+        button.btn.btn-primary(href="#", data-toggle="modal", data-target="#signinModal") 登录
 .container
   .row
     .page-header
       h1 #{title}
-      small 为348服务的表单
 #signinModal.modal.fade
   .modal-dialog
     .modal-content
@@ -33,4 +32,4 @@
             input#signupPassword.form-control(name="password", type="password")
         .modal-footer
           button.btn.btn-default(type="button", data-dismiss="modal") 关闭
-          button.btn.btn-success(type="submit") 提交
+          button.btn.btn-success(type="submit") 登录

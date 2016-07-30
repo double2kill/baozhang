@@ -1,0 +1,33 @@
+extend ../../layout
+
+block content
+  .container
+    .row
+      table.table.table-hover.table-bordered
+        thead
+          tr
+            th.col-sm-1 用户名
+            th.col-sm-1 角色
+            th.col-sm-1 管理
+        tbody
+          each item in users
+              tr(class="item-id-#{item._id}")
+                td #{item.name}
+                case item.role
+                  when 0
+                    td 未认证用户
+                  when 1
+                    td 普通用户
+                  when 5
+                    td 操作员
+                  when 10
+                    td 管理员
+                  default
+                    td 未定义
+                td
+                  | 修改其角色为
+                  select
+                    option(value = "1") 普通用户
+                    option(value = "5") 操作员
+                  button.btn.btn-primary.modify.pull-right(type="button", data-id="#{item.id}") 修改
+  script(src="/js/userAdmin.js")

@@ -7,6 +7,7 @@ var RecordSchema = new mongoose.Schema({
 	date: Date,
 	remark: String,
 	needpaid: Boolean,
+	done: Boolean,
 	invoice: String,
 	meta: {
 		createAt: {
@@ -42,6 +43,11 @@ RecordSchema.statics = {
 	findById: function(id,cb){
 		return this
 		  .findOne({_id: id})
+		  .exec(cb)
+	},
+	findByPurchaser: function(name,cb){
+		return this
+		  .find({purchaser: name})
 		  .exec(cb)
 	}
 }

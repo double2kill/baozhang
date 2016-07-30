@@ -9,7 +9,17 @@ var UserSchema = new mongoose.Schema({
         type: String
     },
     password: String,
-    // 0: normal user
+    realname: {
+        unique: true,
+        type: String,
+        default: ""
+    },
+    teacher: {
+        type: String,
+        default: ""
+    },
+    // 0: Registered users
+    // 1: normal user
     // 
     // 10: admin
     role: {

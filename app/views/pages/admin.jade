@@ -12,7 +12,7 @@ block content
 						th 详情
 						th 有无发票
 						th 购买者
-						th.text-center(colspan="3") 管理
+						th.text-center(colspan="4") 管理
 				tbody
 					each item in records
 						tr(class="item-id-#{item._id}")
@@ -31,5 +31,12 @@ block content
 									button.btn.btn-primary.pay(type="button", data-id="#{item.id}") 结算
 							else
 								td.text-center 已结算
+							if(item.done)
+								td.text-center.info 已报销
+							else if(item.invoice != "有")
+								td.text-center 
+							else
+								td.text-center
+									button.btn.btn-default.done(type="button", data-id="#{item.id}") 未报销
 
 		script(src="/js/admin.js")

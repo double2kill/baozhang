@@ -1,6 +1,6 @@
 // index page
 exports.index = function (req, res) {
   res.render('index',{ 
-    title: 'double2kill的首页'
+    title: '为348服务的表单'
   })
 }

@@ -1,0 +1,22 @@
+extend ../../layout
+
+block content
+  .container
+    .row
+      form.form-horizontal(method="post", action="/user/myinfo")
+        input(type="hidden", name="_id", value="#{user._id}")
+        .form-group
+          lable.col-sm-1.control-label(for="inputName") 用户名
+          .col-sm-3
+            input#inputTitle.form-control(type="text", name="name", value="#{user.name}")
+        .form-group
+          lable.col-sm-1.control-label(for="inputName") 真实姓名
+          .col-sm-3
+            input#inputTitle.form-control(type="text", name="realname", value="#{user.realname}")
+        .form-group
+          lable.col-sm-1.control-label(for="inputName") 导师
+          .col-sm-3
+            input#inputTitle.form-control(type="text", name="teacher", value="#{user.teacher}")
+        .form-group
+          .col-sm-2
+          button.col-sm-1.btn.btn-primary(type="submit") 修改

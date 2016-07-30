@@ -18,30 +18,38 @@ module.exports = function (app) {
   // User
   app.get('/user/signup', User.GETsignup)
   app.get('/user/signin', User.GETsignin)
-  app.post('/user/signup', User.signup)
-  app.post('/user/signin', User.signin)
+  app.post('/user/signup', User.POSTsignup)
+  app.post('/user/signin', User.POSTsignin)
 
     app.get('/user/logout', User.signinRequired, User.logout)
-    app.get('/user/list', User.signinRequired, User.list)
+    app.get('/user/admin', User.signinRequired, User.admin)
     app.get('/user/index', User.signinRequired, User.index)
+    app.get('/user/myinfo', User.signinRequired, User.myinfo)
+    app.post('/user/myinfo', User.signinRequired, User.POSTmyinfo)
+    
+    app.post('/user/admin/', User.signinRequired, User.adminRequired, User.POSTadmin)
 
   // Record
-  app.get('/add', Record.add)
   app.get('/list', Record.list)
   app.get('/all', Record.all)
-  app.post('/admin/record/new', Record.new)
 
+    app.get('/add', User.signinRequired, Record.add)
+    app.get('/record/my', User.signinRequired, Record.my)
+    app.post('/admin/record/new', User.signinRequired, Record.new)
     app.get('/admin/records', User.signinRequired, Record.admin)
     app.post('/admin/record/needpaid', User.signinRequired, Record.POSTneedpaid)
+    app.post('/admin/record/done', User.signinRequired, Record.POSTdone)
     
     app.get('/admin/record/update/:id', User.signinRequired, User.adminRequired, Record.update)
     app.delete('/admin/record/', User.signinRequired, User.adminRequired, Record.del)
 
   // Invoice
-  app.get('/invoice/add', Invoice.add)
-  app.post('/admin/invoice/new', Invoice.new)
+  app.get('/invoice/all', Invoice.all)
   app.get('/invoices', Invoice.list)
 
+    app.post('/admin/invoice/new', User.signinRequired, Invoice.new)
+    app.get('/invoice/my', User.signinRequired, Invoice.my)
+    app.get('/invoice/add', User.signinRequired, Invoice.add)
     app.get('/admin/invoices', User.signinRequired, Invoice.admin)
 
     app.get('/admin/invoice/update/:id', User.signinRequired, User.adminRequired, Invoice.update)
