@@ -11,7 +11,7 @@ exports.POSTsignup = function(req,res) {
 
     if(user){
       // 注册的用户名已存在
-      return res.redirect('/user/signin')
+      return res.redirect('/user/signup')
     }
     else{
       var user =  new User(_user)
@@ -22,7 +22,7 @@ exports.POSTsignup = function(req,res) {
 
         //注册成功
         req.session.user = user
-        res.redirect('/user/myinfo')
+        res.redirect('/user/index')
       })
     }
   })
@@ -96,6 +96,8 @@ exports.GETsignin = function(req, res){
 
 // user index, after signin
 exports.index = function(req, res){
+
+  
   res.render('user/index',{
     title: '用户导航页',
   })
@@ -151,8 +153,14 @@ exports.signinRequired = function (req, res, next) {
   if (!user) {
     return res.redirect('/user/signin')
   }
-
-  next()
+  else{
+    // 更新权限信息
+    var name = req.session.user.name;
+    User.findOne({'name': name}, function(err, user) {
+      req.session.user.role = user.role;
+      next()
+    });
+  }
 }
 exports.adminRequired = function (req, res, next) {
   var user = req.session.user
