@@ -1,57 +1,66 @@
 extend ../layout
 
 block content
-	.container
-		.row
-			table.table.table-hover.table-bordered
-				thead
-					tr
-						th 名称
-						th 价格(元)
-						th 购买日期
-						th 详情
-						th 有无发票
-						th 购买者
-						th 是否已报销
-				tbody
-					each item in records
-						//-代码重复太多，但是不知道如何修改。
-						if(item.needpaid)
-							tr.danger(class="item-id-#{item._id}")
-								td #{item.name}
-								td #{item.price}
-								td #{moment(item.date).format('YYYY/MM/DD')}
-								td #{item.remark}
-								if (item.invoice != "有")
-									td
-										span.glyphicon.glyphicon-remove
-								else
-									td
-										span.glyphicon.glyphicon-ok
-								td #{item.purchaser}
-								if (!item.done)
-									td
-										span.glyphicon.glyphicon-remove
-								else
-									td
-										span.glyphicon.glyphicon-ok
-						else
-							tr(class="item-id-#{item._id}")
-								td #{item.name}
-								td #{item.price}
-								td #{moment(item.date).format('YYYY/MM/DD')}
-								td #{item.remark}
-								if (item.invoice != "有")
-									td
-										span.glyphicon.glyphicon-remove
-								else
-									td
-										span.glyphicon.glyphicon-ok
-								td #{item.purchaser}
-								if (!item.done)
-									td
-										span.glyphicon.glyphicon-remove
-								else
-									td
-										span.glyphicon.glyphicon-ok
-			a(href="add") 添加新的记录
+  .container
+    .row
+      if(tongji)
+        .panel.panel-default
+          .panel-body
+            span 支出合计：
+            span #{tongji.totalCost}
+            span &nbsp &nbsp 月供合计：
+            span #{tongji.income}
+            span &nbsp &nbsp 剩余：
+            span #{tongji.remain}
+      table.table.table-hover.table-bordered
+        thead
+          tr
+            th 名称
+            th 价格(元)
+            th 购买日期
+            th 详情
+            th 有无发票
+            th 购买者
+            th 是否已报销
+        tbody
+          each item in records
+            //-代码重复太多，但是不知道如何修改。
+            if(item.needpaid)
+              tr.danger(class="item-id-#{item._id}")
+                td #{item.name}
+                td #{item.price}
+                td #{moment(item.date).format('YYYY/MM/DD')}
+                td #{item.remark}
+                if (item.invoice != "有")
+                  td
+                    span.glyphicon.glyphicon-remove
+                else
+                  td
+                    span.glyphicon.glyphicon-ok
+                td #{item.purchaser}
+                if (!item.done)
+                  td
+                    span.glyphicon.glyphicon-remove
+                else
+                  td
+                    span.glyphicon.glyphicon-ok
+            else
+              tr(class="item-id-#{item._id}")
+                td #{item.name}
+                td #{item.price}
+                td #{moment(item.date).format('YYYY/MM/DD')}
+                td #{item.remark}
+                if (item.invoice != "有")
+                  td
+                    span.glyphicon.glyphicon-remove
+                else
+                  td
+                    span.glyphicon.glyphicon-ok
+                td #{item.purchaser}
+                if (!item.done)
+                  td
+                    span.glyphicon.glyphicon-remove
+                else
+                  td
+                    span.glyphicon.glyphicon-ok
+      a.btn.btn-primary(href="/add") 添加新的记录

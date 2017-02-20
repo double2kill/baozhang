@@ -1,3 +1,4 @@
+var Income = require('../models/income')
 var Record = require('../models/record')
 var _ =  require('underscore')
 
@@ -25,15 +26,24 @@ exports.list = function(req, res){
       console.log(err)
     }
 
-    res.render('list',{
-      title: '查看记录页',
-      records: records
+    Income.findByName('total',function(err,income){
+      Record.calsum(function(err, result){
+        var tongji = {};
+        tongji.totalCost = result[0].sum.toFixed(2);
+        tongji.income = income.totalmoney;
+        tongji.remain = (tongji.income - tongji.totalCost).toFixed(2);
+        res.render('list',{
+          title: '查看记录页',
+          records: records,
+          tongji: tongji
+        })
+      })
     })
   })
 }
 // list page
 exports.all = function(req, res){
-  Record.find(function(err,records){
+  Record.findByCreate(function(err,records){
     if(err){
       console.log(err)
     }
@@ -47,7 +57,7 @@ exports.all = function(req, res){
 
 // admin page
 exports.admin = function(req, res){
-  Record.find(function(err,records){
+  Record.findByCreate(function(err,records){
     if(err){
       console.log(err)
     }
@@ -178,3 +188,36 @@ exports.my = function(req, res){
     })
   })
 }
+
+exports.balance = function (req, res) {
+  Income.findByName('total',function(err,income){
+    if(err){
+      console.log(err)
+    }
+    Record.calsum(function(err, result){
+      var tongji = {};
+      tongji.totalCost = result[0].sum.toFixed(2);
+      tongji.income = income.totalmoney;
+      tongji.remain = (tongji.income - tongji.totalCost).toFixed(2);
+      res.render('balance',{ 
+        title: '余额',
+        tongji: tongji
+      })   
+    })
+  })
+}
+
+// jiesuan page
+exports.jiesuan = function(req, res){
+  Record.findByNeedpaid(function(err,records){
+    if(err){
+      console.log(err)
+    }
+
+    res.render('jiesuan',{
+      title: '后台管理',
+      records: records
+    })
+  })
+}
+

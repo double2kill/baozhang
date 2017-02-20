@@ -1,0 +1,16 @@
+extend ../layout
+
+block content
+  .container
+    .row
+      table.table.table-hover.table-bordered
+        tbody
+          tr
+            td 合计
+            td #{tongji.totalCost}
+          tr
+            td 资金来源
+            td #{tongji.income}
+          tr
+            td 剩余
+            td #{tongji.remain}

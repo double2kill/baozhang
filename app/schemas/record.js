@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 
 var RecordSchema = new mongoose.Schema({
 	name: String,
-	price: String,
+	price: Number,
 	purchaser: String,
 	date: Date,
 	remark: String,
@@ -40,6 +40,12 @@ RecordSchema.statics = {
 		  .limit(10)
 		  .exec(cb)
 	},
+	findByCreate: function(cb){
+		return this.find({}).sort('meta.createAt').exec(cb);
+	},
+	findByNeedpaid: function(cb){
+		return this.find({"needpaid": true}).sort('meta.createAt').exec(cb);
+	},
 	findById: function(id,cb){
 		return this
 		  .findOne({_id: id})
@@ -49,6 +55,9 @@ RecordSchema.statics = {
 		return this
 		  .find({purchaser: name})
 		  .exec(cb)
+	},
+	calsum:function(cb){
+		return this.aggregate({$group: {_id: null, sum: {$sum: "$price"}}}).exec(cb);
 	}
 }
 

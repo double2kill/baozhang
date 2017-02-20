@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>数字转中文</title>
+  <script src="nzh.js"></script>
+  <style type="text/css">
+    table{
+      display: table;
+      border-top: 1px solid grey;
+      border-left: 1px solid grey;
+      border-collapse:collapse;
+    }
+    tbody {
+      font-size: 14px;
+    }
+    td {
+      border-right: 1px solid grey;
+      border-bottom: 1px solid grey;
+    }
+    #n1 {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div style="margin:100px auto;width: 450px;">
+    <table width="100%" cellpadding="8" cellspacing="0">
+      <tbody>
+        <tr>
+          <td width="80px" bgcolor="#F5F5F5">数字金额:</td>
+          <td bgcolor="#FFFFFF">
+            <input id="n" style="width: 95%;" type="text"/>
+          </td>
+        </tr>
+        <tr>
+          <td width="80px" bgcolor="#F5F5F5">转换结果:</td>
+          <td bgcolor="#FFFFFF">
+            <div id="n1" style="width: 95%;">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" colspan="2">
+            <button onclick="show($('n').value)" style="">转换</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    $ = function(){
+      return document.getElementById.apply(document,arguments);
+    }
+    function show(n){
+      var str = '';
+      if(n.length===0){
+        str = '数字金额不能为空';
+      } else {
+        str += Nzh.cn.toMoney(n) + '\n';
+        str = str.substring(3);
+      }
+      $('n1').innerHTML = str;
+    }
+  </script>
+</body>
+</html>

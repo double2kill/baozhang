@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 
 var InvoiceSchema = new mongoose.Schema({
 	name: String,
-	price: String,
+	price: Number,
 	useCard: String,
 	toWho: String,
 	manager: String,

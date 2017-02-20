@@ -2,6 +2,7 @@ var Index = require('../app/controllers/index')
 var User = require('../app/controllers/user')
 var Record = require('../app/controllers/record')
 var Invoice = require('../app/controllers/invoice')
+var Income = require('../app/controllers/income')
 
 module.exports = function (app) {
   
@@ -30,6 +31,7 @@ module.exports = function (app) {
     app.post('/user/admin/', User.signinRequired, User.adminRequired, User.POSTadmin)
 
   // Record
+  app.get('/balance', Record.balance)
   app.get('/list', Record.list)
   app.get('/all', Record.all)
 
@@ -37,6 +39,7 @@ module.exports = function (app) {
     app.get('/record/my', User.signinRequired, Record.my)
     app.post('/admin/record/new', User.signinRequired, Record.new)
     app.get('/admin/records', User.signinRequired, Record.admin)
+    app.get('/admin/jiesuan', User.signinRequired, Record.jiesuan)
     app.post('/admin/record/needpaid', User.signinRequired, Record.POSTneedpaid)
     app.post('/admin/record/done', User.signinRequired, Record.POSTdone)
     
@@ -55,4 +58,8 @@ module.exports = function (app) {
     app.get('/admin/invoice/update/:id', User.signinRequired, User.adminRequired, Invoice.update)
     app.delete('/admin/invoice/', User.signinRequired, User.adminRequired,Invoice.del)
 
+
+  // Income处理学生月供
+    app.get('/admin/addincome', User.signinRequired, User.adminRequired, Income.addpage)
+    app.post('/admin/addincome', User.signinRequired, User.adminRequired, Income.Postaddincome)
 }

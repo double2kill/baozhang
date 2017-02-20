@@ -27,6 +27,21 @@ block content
                 a.btn.btn-danger(href="/admin/records") 
                     span.glyphicon.glyphicon-cog
                     |  管理所有记录
+                br
+                br
+                a.btn.btn-default(href="/admin/jiesuan") 
+                    span.glyphicon.glyphicon-cog
+                    |  结算
+                br
+                br
+                a.btn.btn-default(href="/admin/addincome") 
+                    span.glyphicon.glyphicon-cog
+                    |  修改总收入
+                br
+                br
+                a.btn.btn-default(href="/balance") 
+                    span.glyphicon.glyphicon-cog
+                    |  查看汇总情况
     if user.role >= 1
         .col-sm-6
             h3 发票
@@ -49,6 +64,16 @@ block content
                 a.btn.btn-danger(href="/admin/invoices") 
                     span.glyphicon.glyphicon-cog
                     |  管理所有发票
+                br
+                br
+                br
+                br
+                br
+                br
+                br
+                br
+                br
+                br
     if user.role >= 10
         .col-sm-6
             br

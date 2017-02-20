@@ -1,0 +1,16 @@
+extend ../../layout
+
+block content
+  .container
+    .row
+      form.form-horizontal(method="post", action="/admin/addincome")
+        .form-group
+          lable.col-sm-1.control-label(for="inputName") 收入合计
+          //- .col-sm-3
+          //-   select.form-control
+          //-     option(value="1") 1月
+          //-     option(value="2") 2月
+          //-     option(value="3") 3月
+          .col-sm-3
+            input#inputTitle.form-control(type="text", name="income" placeholder="填入总收入金额")
+          button.col-sm-1.btn.btn-primary(type="submit") 记录

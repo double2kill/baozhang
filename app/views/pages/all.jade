@@ -1,32 +1,41 @@
 extend ../layout
 
 block content
-	.container
-		.row
-			table.table.table-hover.table-bordered
-				thead
-					tr
-						th 名称
-						th 价格
-						th 购买日期
-						th 详情
-						th 有无发票
-						th 购买者
-				tbody
-					each item in records
-						if(item.needpaid)
-							tr.danger(class="item-id-#{item._id}")
-								td #{item.name}
-								td #{item.price}
-								td #{moment(item.date).format('YYYY/MM/DD')}
-								td #{item.remark}
-								td #{item.invoice}
-								td #{item.purchaser}
-						else
-							tr(class="item-id-#{item._id}")
-								td #{item.name}
-								td #{item.price}
-								td #{moment(item.date).format('YYYY/MM/DD')}
-								td #{item.remark}
-								td #{item.invoice}
-								td #{item.purchaser}
+  .container
+    .row
+      table.table.table-hover.table-bordered
+        thead
+          tr
+            th 名称
+            th 价格
+            th 购买日期
+            th 详情
+            th 有无发票
+            th 购买者
+        tbody
+          each item in records
+            if(item.needpaid)
+              tr.danger(class="item-id-#{item._id}")
+                td #{item.name}
+                td #{item.price}
+                td #{moment(item.date).format('YYYY/MM/DD')}
+                td #{item.remark}
+                td #{item.invoice}
+                td #{item.purchaser}
+            else
+              tr(class="item-id-#{item._id}")
+                td #{item.name}
+                td #{item.price}
+                td #{moment(item.date).format('YYYY/MM/DD')}
+                td #{item.remark}
+                td #{item.invoice}
+                td #{item.purchaser}
+      .panel.panel-default
+        .panel-body
+          |合计：
+          span#total
+  script
+    | window.scrollTo(0,document.body.scrollHeight);
+    | var sum1 = 0;
+    | $("tbody tr td:nth-child(2)").each(function(){sum1+=parseFloat($(this).text())})
+    | $("#total").text(sum1.toFixed(2)) 

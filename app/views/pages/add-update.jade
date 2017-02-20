@@ -12,7 +12,7 @@ block content
 				.form-group
 					lable.col-sm-1.control-label(for="inputPrice") 价格(元)
 					.col-sm-3
-						input#inputTitle.form-control(type="text", name="price", value="#{record.price}", placeholder="直接填入数字即可")
+						input#inputTitle.form-control(type="text", name="price", value="#{record.price}", placeholder="填数字")
 				.form-group
 					lable.col-sm-1.control-label(for="inputDate") 购买日期
 					.col-sm-3
@@ -24,7 +24,12 @@ block content
 				.form-group
 					lable.col-sm-1.control-label(for="inputInvoice") 有无发票
 					.col-sm-3
-						input#inputTitle.form-control(type="text", name="invoice", value="#{record.invoice}", placeholder="有/无")
+						label.radio-inline
+							input(type="radio", name="invoice", value="有")
+							| 有
+						label.radio-inline
+							input(type="radio", name="invoice", value="无" checked)
+							| 无
 				.form-group
 					lable.col-sm-1.control-label(for="inputRemark") 备注
 					.col-sm-3

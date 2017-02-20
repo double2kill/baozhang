@@ -1,0 +1,30 @@
+extend ../layout
+
+block content
+  .container
+    .row
+      table.table.table-hover.table-bordered
+        thead
+          tr
+            th 名称
+            th 价格
+            th 购买日期
+            th 详情
+            th 有无发票
+            th 购买者
+            th.text-center(colspan="4") 管理
+        tbody
+          each item in records
+            tr(class="item-id-#{item._id}")
+              td #{item.name}
+              td #{item.price}
+              td #{moment(item.date).format('YYYY/MM/DD')}
+              td #{item.remark}
+              td #{item.invoice}
+              td #{item.purchaser}
+              td.text-center
+                button.btn.btn-primary.pay(type="button", data-id="#{item.id}") 结算
+    script(src="/js/admin.js")
+    script(src="/js/bootbox.min.js")
+    script
+      | window.scrollTo(0,document.body.scrollHeight);
